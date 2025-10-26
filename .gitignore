@@ -1,4 +1,5 @@
 *.env
+catmailclient.json
 dist
 build
 __pycache__
