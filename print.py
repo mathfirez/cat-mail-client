@@ -70,13 +70,20 @@ try:
         delta = timedelta(
             minutes=2,
         )
+        
+        ## Run every x minutes
+        msg, author, posted_on = get_last_message()
         last_request_time = datetime.now()
         while 1:
-            if datetime.now() - delta < last_request_time:
-                msg = get_last_message()
-                if last_message != msg:
+            if datetime.now() > last_request_time + delta:
+                msg, author, posted_on = get_last_message()
+                if msg == "":
+                    pass
+                else:
                     print(f"Found a new message: {msg}")
                     last_message = msg
-                    main(create_image(msg))
+                    main(create_image(msg, author, posted_on))
+                last_request_time = datetime.now()
+                print("No message found, updating time and moving on:", last_request_time)
 except Exception as error:
     input(error)
